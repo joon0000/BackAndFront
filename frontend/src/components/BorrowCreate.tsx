@@ -40,7 +40,7 @@ function BorrowCreate() {
     const [Books, setBooks] = useState<BookInterface[]>([]);
     const [roles, setRoles] = useState<RolesInterface[]>([]);
     const [users, setUsers] = useState<UserInterface[]>([]);
-    const [borrow, setBorrow] = useState<Partial<BorrowInterface>>({
+    const [borrow, setBorrow] = useState<Partial<BorrowInterface>>({  // return ค่าของ state หรือในการอัพเดทค่า
       DateTime: new Date(),
     });
     const [success, setSuccess] = useState(false);
@@ -102,24 +102,25 @@ function BorrowCreate() {
   
     
     const getBook = async () => {
-      let res = await GetBook();
+      let res = await GetBook();   // let ประกาศว่า res ใช้ได้แค่ใน function
       if (res) {
         setBooks(res);
       }
     };
   
-  
+    //ใชช้งานเวลาเกิดทุกอย่างเปลี่ยนแปลง
     useEffect(() => {
       getUsers();
       getRoles();
       getBook();
     }, []);
-  
+    
+    //แปลงเป็น Int
     const convertType = (data: string | number | undefined) => {
       let val = typeof data === "string" ? parseInt(data) : data;
       return val;
     };
-  
+   
     async function submit() {
       let data = {
         RoleID: convertType(borrow.RoleID),

@@ -37,7 +37,7 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 	//12: ค้นหา employee ด้วย id
-	if tx := entity.DB().Where("id = ?", book.UserID).First(&user); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", book.UserID).First(&user); tx.RowsAffected == 0 { // RowAffected = 1 คือ เมื่อเข้าเงื่อนไขหรือหาขอมูลเจอ
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
@@ -62,7 +62,7 @@ func CreateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cb})
 }
 
-// GET /watchvideo/:id
+// GET /book/:id
 func GetBook(c *gin.Context) {
 	var book entity.Book
 	id := c.Param("id")
@@ -87,7 +87,7 @@ func ListBook(c *gin.Context) {
 // DELETE /books/:id
 func DeleteBook(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM books WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM books WHERE id = ?", id); tx.RowsAffected == 0 { // RowAffected = 0 คือ ถ้าไม่เข้าเงื่อนไข
 		c.JSON(http.StatusBadRequest, gin.H{"error": "book not found"})
 		return
 	}

@@ -17,25 +17,25 @@ func CreateBill(c *gin.Context) {
 	var user entity.User
 	var employee entity.User
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร bill
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร bill // Find  หาตัวที่ต้องการ เช่น หา id = 1
 	if err := c.ShouldBindJSON(&bill); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา book ด้วย id
+	// ค้นหา book ด้วย id // First หาเจออันแรกแล้วก็หยุดหาต่อเลย
 	if tx := entity.DB().Where("id = ?", bill.BookID).First(&book); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "book not  found"})
 		return
 	}
 
-	// ค้นหา memberclass ด้วย id
+	// ค้นหา memberclass ด้วย id // RowAffected = 0 คือ ถ้าไม่เข้าเงื่อนไข
 	if tx := entity.DB().Where("id = ?", bill.MemberClassID).First(&memberclass); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "memberclass not  found"})
 		return
 	}
 
-	// ค้นหา employe ด้วย id
+	// ค้นหา employe ด้วย id // RowAffected = 1 คือ เมื่อเข้าเงื่อนไขหรือหาขอมูลเจอ
 	if tx := entity.DB().Where("id = ?", bill.EmployeeID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not  found"})
 		return
@@ -46,7 +46,7 @@ func CreateBill(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not  found"})
 		return
 	}
-	//ตวรจว่า ชื่อ กับ สิทธิ์ ตรงตามใน DB ไหม
+	//ตวรจว่า ชื่อ กับ สิทธิ์ ตรงตามใน DB ไหม // Scan หาทั้งหมดในตาราง
 	if tx := entity.DB().Where("id = ? AND member_class_id = ?", bill.UserID, bill.MemberClassID).First(&user); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user memberclass id and bill memberclassid are not match"})
 		return
@@ -139,17 +139,3 @@ func UpdateBill(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": bill})
 }
-
-// get member id
-/* func GetmemberSelectuser(c *gin.Context) {
-	var user []entity.User
-
-	id := c.Param("id")
-	if err := entity.DB().Preload("Province").Preload("Role").Preload("MemberClass").Preload("Employee").Raw("SELECT * FROM users WHERE id = ?", id).Find(&user).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": user})
-
-} */

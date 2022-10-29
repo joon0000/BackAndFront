@@ -48,7 +48,7 @@ function BookCreate() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-
+  //alert
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -59,7 +59,7 @@ function BookCreate() {
     setSuccess(false);
     setError(false);
   };
-  
+  //combobox
   const handleChange = (event: SelectChangeEvent) => {
     // console.log(event.target.name);
     // console.log(event.target.value);
@@ -73,7 +73,7 @@ function BookCreate() {
   const Check = (
 
   )=> {console.log(book)}
-
+  //text field string
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
@@ -81,6 +81,7 @@ function BookCreate() {
     const { value } = event.target;
     setBook({ ...book, [id]: value });
   };
+  //text field number
   const handleInputChangenumber = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
@@ -116,24 +117,25 @@ function BookCreate() {
       setShelfs(res);
     }
   };
-
+  //ใชช้งานเวลาเกิดทุกอย่างเปลี่ยนแปลง
   useEffect(() => {
     getShelfs();
     getUsers();
     getBookTypes();
     getRoles();
   }, []);
-
+  //แปลงเป็น Int
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
+  //แปลงเป็น Float
   const convertType_ = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseFloat(data) : data;
     return val;
   };
 
-
+  //ทำงานตอนกดปุ่ม submit
   async function submit() {
     let data = {
       UserID: convertType(localStorage.getItem("id") as string),
@@ -149,6 +151,7 @@ function BookCreate() {
 
     };
     console.log(data);
+    // await รอจนกว่าจะมีการทำงานตามคำสั่งเสร็จ
     let res = await CreateBooks(data);
     if (res) {
       setSuccess(true);
@@ -225,10 +228,6 @@ function BookCreate() {
             <FormControl fullWidth variant="outlined">
                 <p>Book Name</p>
                 <TextField
-                    //id="outlined-password-input"
-                    //label="Password"
-                    //type="password"
-                    //autoComplete="current-password"
                     id="Name"
                     variant="outlined"
                     type="string"
@@ -356,25 +355,7 @@ function BookCreate() {
           </Grid>
 
           <Grid item xs={6}>
-          {/* <FormControl fullWidth variant="outlined">
-              <p>employee ID</p>
-              <Select
-                native
-                value={book.EmpID + ""}
-                onChange={handleChange}
-                disabled
-                inputProps={{
-                  name: "EmpID",
-                }}
-              >
-                <option aria-label="None" value="">
-                  ชื่อพนักงาน
-                </option>
-                <option value={employees?.ID} key={employees?.ID}>
-                  {employees?.Name}
-                </option>
-              </Select>
-            </FormControl> */}
+          
           </Grid>
 
           <Grid item xs={6}>

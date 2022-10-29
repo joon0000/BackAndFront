@@ -89,6 +89,7 @@ function ReservationCreate() {
   };
 
   //combobox
+  //set state ของ researchroomreservationrecord หรือ set setResearchroomreservationrecord
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof researchroomreservationrecord;
     setResearchroomreservationrecord({
@@ -118,6 +119,7 @@ function ReservationCreate() {
     }
   };
 
+  //ฟังก์ชันที่เอาไว้ใช้งานเมื่อ component มีการเปลี่ยนแปลง
   useEffect(() => {
     getResearchrooms();
     getAddons();
@@ -136,17 +138,9 @@ function ReservationCreate() {
       AddOnID: convertType(researchroomreservationrecord.AddOnID),
       TimeRoomID: convertType(researchroomreservationrecord.TimeRoomID),
       BookDate: researchroomreservationrecord.BookDate,
-      // ResolutionID: convertType(watchVideo.ResolutionID),
-      // PlaylistID: convertType(watchVideo.PlaylistID),
-      // VideoID: convertType(watchVideo.VideoID),
-      // Name: book.Name,
-      // Author: book.Author,
-      // Page: book.Page,
-      // Quantity: book.Quantity,
-      // Price: book.Price,
-      //WatchedTime: watchVideo.WatchedTime,
     };
 
+    // await รอจนกว่าจะมีการทำงานตามคำสั่งเสร็จ
     let res = await ResearchRoomReservationRecords(data);
     if (res) {
       setSuccess(true);

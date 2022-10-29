@@ -30,10 +30,10 @@ function BillCreate(){
   /*   const [getp, Setgetp] = useState<Partial<UsersInterface>>({ID:0}); */
    // const [userMemberClass, SetuserMemberClass] = useState<UsersInterface[]>([]);
   //  const [employees, setEmployees] = useState<EmployeesInterface[]>([]);
-    const [users, setUsers] = useState<UserInterface[]>([]);
+    const [users, setUsers] = useState<UserInterface[]>([]); //เอาข้อมูลไปใส่จะใช้ arry
     const [books, setBooks] = useState<BookInterface[]>([]);
-    const [memberclasses, setMemberClasses] = useState<MemberClassesInterface[]>([]);
-    const [bill, setBill] = useState<Partial<BillInterface>>({
+    const [memberclasses, setMemberClasses] = useState<MemberClassesInterface[]>([]); // return ค่าของ state หรือในการอัพเดทค่า
+    const [bill, setBill] = useState<Partial<BillInterface>>({  
         BillTime: new Date(),
     });
 
@@ -41,41 +41,6 @@ function BillCreate(){
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
 
-    
-    /* const apiUrl = "http://localhost:8080";
-    
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    }; */
-    
-   /*  const getformember = async () => { 
-      console.log(getp.ID)
-      fetch(`${apiUrl}/select/user/get/member/`+ getp.ID, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-          if (res.data) {
-            SetuserMemberClass(res.data);
-            console.log(res.data);
-        } else { 
-           console.log(res.error);
-    }
-    });
-    
-    } */
-
-   /*  const handleUser= (event: SelectChangeEvent) => {
-      const name = event.target.name as keyof typeof getp;
-      Setgetp({...getp, [name]: event.target.value, });
-      setBill({
-          MemberClassID:0,
-          BillTime: new Date(),
-      });
-      getformember()
-  }; */
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -101,7 +66,7 @@ function BillCreate(){
       
 
       const getUsers = async () => {
-        let res = await GetuserByrole();
+        let res = await GetuserByrole();            // let ประกาศว่า res ใช้ได้แค่ใน function
         if(res) {
           setUsers(res);
         }
@@ -132,8 +97,8 @@ function BillCreate(){
         return val;
       };
 
-      async function submit() {
-        let data = {
+      async function submit() {                                                               // synchromous รอให้งานอื่นเส็จก่อน ถึงจะทำงานในส่วนของตัวถัดไปได้
+        let data = {                                                                          // asynchronous งานไหนที่ไม่เกี่ยวข้องกันรันไปพร้อมๆกันได้
           EmployeeID: convertType(localStorage.getItem("id") as string),
           BookID: convertType(bill.BookID),
           UserID: convertType(bill.UserID),
@@ -187,22 +152,6 @@ function BillCreate(){
             <Divider>
               <Grid container spacing={3} sx={{ padding: 2 }}>
                 
-                {/* <Grid item xs={12}>
-                  <FormControl fullWidth variant="outlined">
-                    <p>ชื่อสมาชิก</p>
-                    <Select native value={getp.ID + ""} onChange={handleUser} inputProps={{name: "ID", }}>
-                      <option aria-label="None" value="0">
-                        เลือกสมาชิก
-                      </option>
-                      {users.map((item: UsersInterface) => (
-                        <option value={item.ID} key={item.ID}>
-                          {item.FirstName}
-                        </option>
-                      ))
-                      }
-                    </Select>
-                  </FormControl>
-                </Grid> */} {/* ของอนัน */}
                 <Grid item xs={12}>
                   <FormControl fullWidth variant="outlined">
                     <p>ชื่อสมาชิก</p>
@@ -237,22 +186,7 @@ function BillCreate(){
                   </FormControl>
                 </Grid>
 
-               {/* <Grid item xs={12}>
-                  <FormControl fullWidth variant="outlined">
-                    <p>สิทธิ์</p>
-                    <Select native value={bill.MemberClassID + ""} onChange={handleChange} inputProps={{name: "MemberClassID", }}>
-                      <option aria-label="None" value="">
-                        เลือกสิทธิ์
-                      </option>
-                      {users.map((item: UsersInterface) => (
-                        <option value={item.MemberClassID} key={item.MemberClassID}>
-                          {item.MemberClass?.Name}
-                        </option>
-                      ))
-                      }
-                    </Select>
-                  </FormControl>
-                </Grid> */}
+               
                    
                   <Grid item xs={12}>
                   <FormControl fullWidth variant="outlined">

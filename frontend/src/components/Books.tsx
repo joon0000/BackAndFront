@@ -76,12 +76,6 @@ function Books() {
         width: 200,
         valueFormatter: (params) => params.value.Type,
     },
-  //   {
-  //     field: "Role.BorrowDay",
-  //     headerName: "ชั้น",
-  //     width: 200,
-  //     valueFormatter: (params) => params.value.ID,
-  // },
     {
         field: "Role",
         headerName: "สิทธิ์เข้าถึงหนังสือ",

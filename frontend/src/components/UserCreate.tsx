@@ -16,8 +16,8 @@ import TextField from "@mui/material/TextField";
 //import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 //import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import { ProvincesInterface } from "../interfaces/IProvince"; //Playlist --> Province
-import { RolesInterface } from "../interfaces/IRole"; //Reso --> Role
+import { ProvincesInterface } from "../interfaces/IProvince"; 
+import { RolesInterface } from "../interfaces/IRole"; 
 import { UserInterface } from "../interfaces/IUser";
 
 import {
@@ -36,7 +36,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function UserCreate() {
   const [provinces, setProvinces] = React.useState<ProvincesInterface[]>([]);
   const [roles, setRoles] = useState<RolesInterface[]>([]);
-  const [user, setUser] = useState<Partial<UserInterface>>();
+  const [user, setUser] = useState<Partial<UserInterface>>();             // return ค่าของ state หรือในการอัพเดทค่า
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -71,7 +71,7 @@ function UserCreate() {
   };
   
   const getProvinces = async () => {
-    let res = await GetProvinces();
+    let res = await GetProvinces();        // let ประกาศว่า res ใช้ได้แค่ใน function
     if (res) {
       setProvinces(res);
     }
@@ -97,9 +97,9 @@ function UserCreate() {
 
 
   
-  async function submit() {
-    let data = {
-      MemberClassID: 1,
+  async function submit() {                                   // synchromous รอให้งานอื่นเส็จก่อน ถึงจะทำงานในส่วนของตัวถัดไปได้
+    let data = {                                              // asynchronous งานไหนที่ไม่เกี่ยวข้องกันรันไปพร้อมๆกันได้
+      MemberClassID: 1,                                     
       ProvinceID: convertType(user?.ProvinceID),
       RoleID: convertType(user?.RoleID),
       Pin: user?.Pin,

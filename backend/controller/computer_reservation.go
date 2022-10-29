@@ -53,7 +53,6 @@ func CreateComputer_reservation(c *gin.Context) {
 		Computer: computer,                  // โยงความสัมพันธ์กับ Entity Computer
 		Time_com: time_com,                  // โยงความสัมพันธ์กับ Entity Time_com
 		Date:     computer_reservation.Date, // ตั้งค่า Date
-
 	}
 
 	// ขั้นตอนการ validate ที่นำมาจาก unit test

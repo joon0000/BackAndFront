@@ -15,17 +15,16 @@ func CreateResearchRoomReservationRecord(c *gin.Context) {
 	var user entity.User
 	var addon entity.AddOn
 	var timeroom entity.TimeRoom
-	//var researchroomlast researchroomlast
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร researchRoomReservationRecord
+	//ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร researchRoomReservationRecord
 	//รับค่ามาจาก body ก่อน
+	//Bind ข้อมูลจาก frontend เข้ากับ structure ของ backend
 	if err := c.ShouldBindJSON(&researchroomreservationrecord); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	// 9: ค้นหา ResearchRoom ด้วย id
-	//SELECT * FROM researchrooms WHERE id = ?;
 	//if กำหนดค่าตัวแปร tx ก่อนจะทำการเช็คเงื่อนไขที่ tx.RowsAffected												// returns found records count, equals `len(users)`
 	if tx := entity.DB().Where("id = ?", researchroomreservationrecord.ResearchRoomID).First(&researchroom); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "research room not found"})
@@ -55,23 +54,7 @@ func CreateResearchRoomReservationRecord(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "research room id and time room id are not match"})
 		return
 	}
-	//สร้างตาราง ResearchRoom
-	// researchroom = entity.ResearchRoom{
-	// 	RoomType:  roomtype,
-	// 	Equipment: equipment,
-	// }
 
-	//ทำการตรวจสอบความถูกต้องของ struct ก่อนนำไปสร้าง record
-	// if _, err := govalidator.ValidateStruct(researchroom); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
-	//บันทึกค่าลงในตาราง ResearchRoom
-	// if err := entity.DB().Create(&researchroom).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
 	// 13: สร้าง researchRoomReservationRecord
 	RRRR := entity.ResearchRoomReservationRecord{
 		ResearchRoom: researchroom,                           // โยงความสัมพันธ์กับ Entity ResearchRoom
@@ -80,12 +63,6 @@ func CreateResearchRoomReservationRecord(c *gin.Context) {
 		TimeRoom:     timeroom,                               // โยงความสัมพันธ์กับ Entity TimeRoom
 		BookDate:     researchroomreservationrecord.BookDate, // ตั้งค่าฟิลด์ researchroomreservationrecord.BookDat
 	}
-
-	//ทำการตรวจสอบความถูกต้องของ struct ก่อนนำไปสร้าง record
-	// if _, err := govalidator.ValidateStruct(RRRR); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
 
 	// 14: บันทึกตารางหลัก(ResearchRoomReservationRecord)
 	if err := entity.DB().Create(&RRRR).Error; err != nil {
@@ -106,7 +83,6 @@ func GetResearchRoomReservationRecord(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": researchroomreservationrecord})
 }
 
-// .Find Get all records
 // GET /researchroomreservationrecords
 func ListResearchRoomReservationRecords(c *gin.Context) {
 	var researchroomreservationrecords []entity.ResearchRoomReservationRecord

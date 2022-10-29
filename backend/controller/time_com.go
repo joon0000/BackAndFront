@@ -8,6 +8,7 @@ import (
 )
 
 // POST /time_coms
+// c.ShouldBingJSON  คือ Bind ข้อมูลที่ได้จาก frontend เข้ากับ structure ของ backend
 func CreateTime_com(c *gin.Context) {
 	var time_com entity.Time_com
 	if err := c.ShouldBindJSON(&time_com); err != nil {
@@ -23,6 +24,9 @@ func CreateTime_com(c *gin.Context) {
 }
 
 // GET /time_com/:id
+// gin.Context เป็นส่วนสำคัญที่สุดของ gin มีรายละเอียดของ request, validates, จัดรูปแบบเป็น JSON
+//Context.JSON ทำให้ struct เป็นรูปแบบ JSON และ response และตั้งค่า Content-Type เป็น application/json
+
 func GetTime_com(c *gin.Context) {
 	var time_com entity.Time_com
 	id := c.Param("id")
@@ -30,11 +34,13 @@ func GetTime_com(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	//เปลี่ยนข้อมูลที่มีใĀ้เป็นข้อมูลแบบ json
 
 	c.JSON(http.StatusOK, gin.H{"data": time_com})
 }
 
 // GET /times
+
 func ListTime_coms(c *gin.Context) {
 	var time_coms []entity.Time_com
 	if err := entity.DB().Raw("SELECT * FROM time_coms").Find(&time_coms).Error; err != nil {
@@ -57,6 +63,7 @@ func DeleteTime_com(c *gin.Context) {
 }
 
 // PATCH /time_coms
+
 func UpdateTime_com(c *gin.Context) {
 	var time_com entity.Time_com
 	if err := c.ShouldBindJSON(&time_com); err != nil {

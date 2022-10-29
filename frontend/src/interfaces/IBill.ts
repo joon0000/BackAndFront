@@ -2,7 +2,7 @@ import { BookInterface } from "./IBook";
 import { MemberClassesInterface } from "./IMemberClass";
 import { UserInterface } from "./IUser";
 
-export interface BillInterface {
+export interface BillInterface { // ?ตวรจสอบว่าเป็น null ไหม หรือ ตวรจสอบว่า เป็น type ที่ตรงไหมก่อนที่จะ assignment
     ID?: number;
 
     BookID?: number; //

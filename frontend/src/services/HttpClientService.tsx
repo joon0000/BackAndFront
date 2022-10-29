@@ -40,6 +40,7 @@ async function Login(data: SigninInterface) {
 }
 
 async function GetBook() {
+  //async = รันโค้ดพร้อมกันได้
   const requestOptions = {
     method: "GET",
     headers: {
@@ -225,6 +226,7 @@ async function CreateBooks(data: BookInterface) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+    //แปลงข้อมมูลจาก JavaScript Object ใĀ้อยู่ในรูปของ JSON String
   };
 
   let res = await fetch(`${apiUrl}/createbooks`, requestOptions)
@@ -491,6 +493,7 @@ async function Computers(data: ComputersInterface) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+    //แปลงข้อมมูลจาก JavaScript Object ใĀ้อยู่ในรูปของ JSON String
   };
 
   let res = await fetch(`${apiUrl}/computers`, requestOptions)

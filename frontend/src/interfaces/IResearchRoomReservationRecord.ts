@@ -7,7 +7,8 @@ import { RoomTypesInterface } from "./IRoomType";
 
 export interface ResearchRoomReservationRecordInterface {
 
-  ID?: number,
+  // ?ตวรจสอบว่าเป็น null ไหม หรือ ตวรจสอบว่า เป็น type ที่ตรงไหมก่อนที่จะ assignment
+  ID?: number, 
   BookDate: Date | null,
   ResearchRoomID?: number,
   ResearchRoom?: ResearchRoomsInterface,

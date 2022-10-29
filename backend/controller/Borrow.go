@@ -1,6 +1,8 @@
 package controller
+
 import (
 	"net/http"
+
 	"github.com/aamjazrk/week5/entity"
 	"github.com/gin-gonic/gin"
 )
@@ -9,22 +11,23 @@ func CreateBorrow(c *gin.Context) {
 	var Borrow entity.Borrow
 	var Book entity.Book
 	//var memberclass entity.MemberClass
-	var User entity.User
+	var User entity.User // โยงความสัมพันธ์กับ Entity User
 	var Role entity.Role
 
 	//ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Borrow
+	//รับค่ามาจาก body ก่อน
+	//Bind ข้อมูลจาก frontend เข้ากับ structure ของ backend
 	if err := c.ShouldBindJSON(&Borrow); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return //c.JSON = เปลี่ยนข้อมูลที่มีให้เป็นแบบ JSON
 	}
 
 	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", Borrow.UserID).First(&User); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not  found"})
+	if tx := entity.DB().Where("id = ?", Borrow.UserID).First(&User); tx.RowsAffected == 0 { // RowAffected = 1 คือ เมื่อเข้าเงื่อนไขหรือหาขอมูลเจอ
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user not  found"}) //first หาเจออันแรกละหยุดหา
 		return
 	}
-	
-	
+
 	// ค้นหา Book ด้วย id
 	if tx := entity.DB().Where("id = ?", Borrow.BookID).First(&Book); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not  found"})
@@ -33,23 +36,23 @@ func CreateBorrow(c *gin.Context) {
 	// ค้นหา Role ด้วย id
 	if tx := entity.DB().Where("id = ?", Borrow.RoleID).First(&Role); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not  found"})
-		
+
 		return
 	}
-	if tx := entity.DB().Where("id = ? AND role_id = ?",  Borrow.BookID,Borrow.RoleID).First(&Book); tx.RowsAffected == 0{
+	if tx := entity.DB().Where("id = ? AND role_id = ?", Borrow.BookID, Borrow.RoleID).First(&Book); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user role and book role are not match!"})
 		return
 	}
 	// สร้าง borrow
 	cb := entity.Borrow{
-		RoleID: 	Book.RoleID,      
-		User:  		User,          
-		User_PIN:  	User.Pin,
-		Book:		Book, 
-		Book_Name:	Book.Name,       
-		DateTime: 	Borrow.DateTime, 
+		RoleID:    Book.RoleID,
+		User:      User,
+		User_PIN:  User.Pin,
+		Book:      Book,
+		Book_Name: Book.Name,
+		DateTime:  Borrow.DateTime,
 	}
-	
+
 	// 14: บันทึก
 	if err := entity.DB().Create(&cb).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -92,8 +95,6 @@ func DeleteBorrow(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-
-
 // PATCH /Borrows
 func UpdateBorrow(c *gin.Context) {
 	var borrow entity.Borrow
@@ -114,4 +115,3 @@ func UpdateBorrow(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": borrow})
 }
-
