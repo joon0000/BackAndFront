@@ -2,6 +2,7 @@ import { ComputersInterface } from "./IComputer"
 import { Computer_ossInterface } from "./IComputer_os"
 import { Time_comsInterface } from "./ITime_com"
 import { UserInterface } from "./IUser";
+//การประกาศ struct ให้กับ object
 
 export interface Computer_reservationInterface{
 	ID?: Number;
