@@ -65,7 +65,7 @@ func SetupDatabase() {
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	//password2, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	password4, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	//password4, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	//Role
 	student := Role{
 		Name:       "Student",
@@ -207,7 +207,7 @@ func SetupDatabase() {
 		Civ:       "1111111111111",
 		Phone:     "0811111111",
 		Email:     "preechapat@mail.com",
-		Password:  string(password3),
+		Password:  string(password1),
 		Address:   "ถนน a อำเภอ v",
 		//FK
 		Role:        student,
@@ -234,13 +234,13 @@ func SetupDatabase() {
 
 	db.Model(&User{}).Create(&User{
 		Pin:       "T654321",
-		FirstName: "Wichai",
-		LastName:  "Micro",
+		FirstName: "a",
+		LastName:  "b",
 		Civ:       "3210987654321",
 		Phone:     "0823456789",
-		Email:     "wichai@mail.com",
+		Email:     "a@mail.com",
 		Password:  string(password3),
-		Address:   "ถนน c อำเภอ z",
+		Address:   "ถนน q อำเภอ z",
 		//FK
 		Role:        teacher,
 		Province:    bangkok,
@@ -250,12 +250,12 @@ func SetupDatabase() {
 	db.Model(&User{}).Create(&User{
 		Pin:       "B6222222",
 		FirstName: "kawin",
-		LastName:  "anpa",
+		LastName:  "l.",
 		Civ:       "22222222222222",
 		Phone:     "0811111111",
 		Email:     "kawin@mail.com",
-		Password:  string(password4),
-		Address:   "ถนน a อำเภอ v",
+		Password:  string(password1),
+		Address:   "หอ b อำเภอ r",
 		//FK
 		Role:        student,
 		Province:    korat,
@@ -684,23 +684,23 @@ func SetupDatabase() {
 
 	db.Model(&Bill{}).Create(&Bill{
 		Price:       float32(Python.Price),
-		Employee:    user2,  //ค้นหาจาก id
-		Book:        Python, //ค้นหาจาก id
-		User:        user1,  //ค้นหาจาก id
-		MemberClass: gold,   //ดึงไงวะ
-		Discount:    float32(gold.Discount),
-		Total:       float32(Python.Price) - float32(gold.Discount),
+		Employee:    user2,   //ค้นหาจาก id
+		Book:        Python,  //ค้นหาจาก id
+		User:        user1,   //ค้นหาจาก id
+		MemberClass: classic, //ดึงไงวะ
+		Discount:    float32(classic.Discount),
+		Total:       float32(Python.Price) - float32(classic.Discount),
 		BillTime:    time.Now(),
 	})
 
 	db.Model(&Bill{}).Create(&Bill{
 		Price:       float32(Java.Price),
-		Employee:    user2, //ค้นหาจาก id
-		Book:        Java,  //ค้นหาจาก id
-		User:        user1, //ค้นหาจาก id
-		MemberClass: plat,  //ดึงไงวะ
-		Discount:    float32(plat.Discount),
-		Total:       float32(Java.Price) - float32(plat.Discount),
+		Employee:    user2,   //ค้นหาจาก id
+		Book:        Java,    //ค้นหาจาก id
+		User:        user1,   //ค้นหาจาก id
+		MemberClass: classic, //ดึงไงวะ
+		Discount:    float32(classic.Discount),
+		Total:       float32(Java.Price) - float32(classic.Discount),
 		BillTime:    time.Now(),
 	})
 	//-----------------------------------------------------------------------------------//xxBill//--------------------------------

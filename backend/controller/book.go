@@ -5,7 +5,6 @@ import (
 
 	"github.com/aamjazrk/week5/entity"
 	"github.com/gin-gonic/gin"
-	"fmt"
 )
 
 func CreateBook(c *gin.Context) {
@@ -18,13 +17,14 @@ func CreateBook(c *gin.Context) {
 	if err := c.ShouldBindJSON(&book); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error cannot bind": err.Error()})
 		return
+		//c.JSON = เปลี่ยนข้อมูลที่มีให้เป็นแบบ JSON
 	}
-	fmt.Println("what", book.BooktypeID)
-	fmt.Println("what", book.RoleID)
+
 	//9: ค้นหา shelf ด้วย id
 	if tx := entity.DB().Where("id = ?", book.ShelfID).First(&shelf); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "shelf not found"})
 		return
+		//first หาเจออันแรกละหยุดหา
 	}
 	//10: ค้นหา book_type ด้วย id
 	if tx := entity.DB().Where("id = ?", book.BooktypeID).First(&book_type); tx.RowsAffected == 0 {
